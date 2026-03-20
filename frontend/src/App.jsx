@@ -6,7 +6,9 @@ import Biblioteca from './pages/Biblioteca'
 import FormularioPoema from './pages/FormularioPoema'
 import DetallePoema from './pages/DetallePoema'
 import Login from './pages/Login'
+import Registro from './pages/Registro'
 import VistaUsuario from './pages/VistaUsuario'
+import Publica from './pages/Publica'
 import { useAuth } from './context/AuthContext'
 
 function App() {
@@ -16,8 +18,10 @@ function App() {
     <BrowserRouter>
       {usuarioActivo && <Navbar />}
       <Routes>
+        <Route path="/" element={<Publica />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={
+        <Route path="/registro" element={<Registro />} />
+        <Route path="/dashboard" element={
           <RutaProtegida>
             {esAdmin ? <Home /> : <VistaUsuario />}
           </RutaProtegida>

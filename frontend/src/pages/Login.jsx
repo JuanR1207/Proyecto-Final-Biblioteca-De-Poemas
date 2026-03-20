@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 function Login() {
@@ -22,7 +22,7 @@ function Login() {
     }
     const exito = login(form.usuario, form.contraseña)
     if (exito) {
-      navigate('/')
+      navigate('/dashboard')
     } else {
       setError('Usuario o contraseña incorrectos')
     }
@@ -74,6 +74,13 @@ function Login() {
           >
             Iniciar Sesión
           </button>
+
+          <p className="text-gray-400 text-center text-sm">
+            ¿No tienes cuenta?{' '}
+            <Link to="/registro" className="text-teal-400 hover:underline">
+              Regístrate
+            </Link>
+          </p>
 
           <div className="border border-gray-800 rounded-xl p-4 mt-2">
             <p className="text-gray-500 text-sm text-center mb-2">Usuarios de prueba</p>
