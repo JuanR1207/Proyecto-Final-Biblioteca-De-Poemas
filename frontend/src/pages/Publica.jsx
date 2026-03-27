@@ -61,7 +61,7 @@ function Publica() {
         style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)' }}
       >
         <h1 className="text-2xl font-bold text-orange-300">
-          📚 Biblioteca de Poemas
+           Biblioteca de Poemas
         </h1>
         <div className="flex gap-3">
           <Link
@@ -108,7 +108,6 @@ function Publica() {
           </select>
         </div>
 
-        {/* Poemas */}
         {poemasFiltrados.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-300 text-xl">No se encontraron poemas 😔</p>

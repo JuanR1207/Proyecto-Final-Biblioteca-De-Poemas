@@ -44,7 +44,7 @@ function Login() {
       <div className="bg-black bg-opacity-50 border border-orange-200 rounded-2xl p-8 w-full max-w-md backdrop-blur-sm">
 
         <h1 className="text-3xl font-bold text-orange-300 text-center mb-2">
-          📚 Biblioteca de Poemas
+           Biblioteca de Poemas
         </h1>
         <p className="text-gray-300 text-center mb-8">
           Inicia sesión para continuar
@@ -93,7 +93,6 @@ function Login() {
             </Link>
           </p>
 
-          {/* ✅ Botón volver a la página pública */}
           <p className="text-gray-300 text-center text-sm">
             <Link to="/" className="text-orange-300 hover:underline">
               ← Volver a la biblioteca pública

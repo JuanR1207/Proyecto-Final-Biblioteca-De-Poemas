@@ -13,7 +13,6 @@ function VistaUsuario() {
   const categorias = ['Amor', 'Naturaleza', 'Tristeza', 'Alegría', 'Reflexión']
 
   useEffect(() => {
-    // ✅ Trae todos los poemas, sin filtro por usuario
     fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas')
       .then(res => res.json())
       .then(data => {

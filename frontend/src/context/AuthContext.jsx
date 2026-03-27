@@ -3,7 +3,6 @@ import { createContext, useContext, useState } from 'react'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-  // ✅ Inicializa desde localStorage para que la sesión sobreviva recargas
   const [usuarioActivo, setUsuarioActivo] = useState(
     () => localStorage.getItem('usuario') || null
   )
@@ -40,7 +39,6 @@ export const AuthProvider = ({ children }) => {
 
       const data = await res.json()
 
-      // ✅ Persiste todo en localStorage incluyendo el id
       localStorage.setItem('token', data.token)
       localStorage.setItem('usuario', data.usuario)
       localStorage.setItem('rol', data.rol)
@@ -57,7 +55,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   const logout = () => {
-    // ✅ Limpia todo al cerrar sesión
     localStorage.removeItem('token')
     localStorage.removeItem('usuario')
     localStorage.removeItem('rol')
@@ -68,7 +65,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   return (
-    // ✅ Expone token para que otros componentes lo puedan usar
     <AuthContext.Provider value={{ usuarioActivo, esAdmin, token, registro, login, logout }}>
       {children}
     </AuthContext.Provider>

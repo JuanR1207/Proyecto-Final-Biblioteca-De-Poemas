@@ -12,7 +12,6 @@ import Publica from './pages/Publica'
 import { useAuth } from './context/AuthContext'
 
 function App() {
-  // ✅ esAdmin viene del contexto real, no hardcodeado como true
   const { usuarioActivo, esAdmin } = useAuth()
 
   return (

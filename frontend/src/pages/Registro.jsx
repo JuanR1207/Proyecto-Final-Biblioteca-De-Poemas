@@ -52,7 +52,6 @@ function Registro() {
       return
     }
 
-    // ✅ registro() devuelve { exito, mensaje }, no un booleano
     const resultado = await registro(form.usuario, form.contraseña)
 
     if (resultado.exito) {
@@ -76,7 +75,7 @@ function Registro() {
       <div className="bg-black bg-opacity-50 border border-orange-200 rounded-2xl p-8 w-full max-w-md backdrop-blur-sm">
 
         <h1 className="text-3xl font-bold text-orange-300 text-center mb-2">
-          📚 Crear cuenta
+           Crear cuenta
         </h1>
 
         <p className="text-gray-300 text-center mb-8">

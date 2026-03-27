@@ -46,7 +46,6 @@ function Biblioteca() {
           Todos los Poemas
         </h1>
 
-        {/* Búsqueda y filtros */}
         <div className="flex flex-col md:flex-row gap-4 mb-8">
           <input
             type="text"
@@ -67,7 +66,6 @@ function Biblioteca() {
           </select>
         </div>
 
-        {/* Resultado */}
         {poemasFiltrados.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-300 text-xl">No se encontraron poemas 😔</p>

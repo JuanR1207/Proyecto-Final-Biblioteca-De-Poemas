@@ -40,7 +40,6 @@ function Home() {
         </div>
       </div>
 
-      {/* Tarjetas informativas */}
       <div className="max-w-4xl mx-auto px-6 pb-20 grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-black bg-opacity-50 rounded-2xl p-6 text-center border border-orange-200 border-opacity-30 backdrop-blur-sm hover:border-orange-300 transition-all">
           <div className="text-4xl mb-3">✍️</div>

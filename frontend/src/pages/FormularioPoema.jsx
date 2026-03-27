@@ -53,7 +53,6 @@ function FormularioPoema() {
 
     const method = esEdicion ? 'PUT' : 'POST'
 
-    // ✅ usuario_id tomado del localStorage, no de usuarioActivo?.id
     const usuario_id = localStorage.getItem('usuario_id')
 
     fetch(url, {

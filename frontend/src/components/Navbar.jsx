@@ -27,7 +27,7 @@ function Navbar() {
           📚 Biblioteca de Poemas
         </Link>
 
-        {/* Botón hamburguesa móvil */}
+        
         <button
           onClick={() => setMenuAbierto(!menuAbierto)}
           className="md:hidden text-orange-300 focus:outline-none"
@@ -75,7 +75,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Menú hamburguesa móvil */}
+      
       {menuAbierto && (
         <div
           className="md:hidden flex flex-col gap-4 mt-4 pb-4 border-t border-orange-400 border-opacity-30 pt-4"
