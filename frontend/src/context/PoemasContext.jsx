@@ -1,37 +1,59 @@
-import { createContext, useState, useEffect, useContext } from 'react'
+import { createContext, useContext, useState, useEffect } from "react";
 
-const PoemasContext = createContext()
+export const PoemasContext = createContext();
 
-export function PoemasProvider({ children }) {
+export const PoemasProvider = ({ children }) => {
+
   const [poemas, setPoemas] = useState([])
   const [cargando, setCargando] = useState(true)
 
-  const cargarPoemas = () => {
-    fetch('http://localhost:3000/api/poemas')
-      .then(res => res.json())
-      .then(data => {
-        setPoemas(data)
-        setCargando(false)
+  const obtenerPoemas = async () => {
+    try {
+      const res = await fetch('http://localhost:3000/api/poemas')
+      const data = await res.json()
+      setPoemas(data)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setCargando(false)
+    }
+  }
+
+  const crearPoema = async (poema) => {
+    try {
+      const res = await fetch('http://localhost:3000/api/poemas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(poema)
       })
+      const data = await res.json()
+      console.log(data)
+      obtenerPoemas()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const eliminarPoema = async (id) => {
+    try {
+      await fetch(`http://localhost:3000/api/poemas/${id}`, {
+        method: 'DELETE'
+      })
+      setPoemas(prev => prev.filter(p => p.id !== parseInt(id)))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
-    cargarPoemas()
+    obtenerPoemas()
   }, [])
 
-  const eliminarPoema = (id) => {
-    fetch(`http://localhost:3000/api/poemas/${id}`, {
-      method: 'DELETE'
-    }).then(() => cargarPoemas())
-  }
-
   return (
-    <PoemasContext.Provider value={{ poemas, cargando, cargarPoemas, eliminarPoema }}>
+    <PoemasContext.Provider value={{ poemas, cargando, crearPoema, eliminarPoema }}>
       {children}
     </PoemasContext.Provider>
   )
 }
 
-export function usePoemas() {
-  return useContext(PoemasContext)
-}
+export const usePoemas = () => useContext(PoemasContext)

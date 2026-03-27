@@ -35,70 +35,87 @@ function DetallePoema() {
   }
 
   if (cargando) return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <p className="text-teal-400 text-xl">Cargando poema...</p>
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <p className="text-orange-300 text-xl">Cargando poema...</p>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-gray-950 p-10">
-      <div className="max-w-2xl mx-auto bg-gray-900 border border-gray-800 rounded-2xl p-8">
+    <div
+      className="min-h-screen"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1600')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <div className="p-10">
+        <div className="max-w-2xl mx-auto bg-black bg-opacity-50 border border-orange-200 border-opacity-30 rounded-2xl p-8 backdrop-blur-sm">
 
-        <span className="text-xs bg-teal-400 text-gray-950 px-3 py-1 rounded-full font-bold">
-          {poema.categoria}
-        </span>
+          <span className="text-xs bg-orange-300 text-black px-3 py-1 rounded-full font-bold">
+            {poema.categoria}
+          </span>
 
-        <h1 className="text-4xl font-bold text-white mt-4 mb-2">
-          {poema.titulo}
-        </h1>
+          <h1 className="text-4xl font-bold text-white mt-4 mb-2">
+            {poema.titulo}
+          </h1>
 
-        <p className="text-teal-400 mb-6">
-          ✍️ {poema.autor}
-        </p>
-
-        <div className="bg-gray-800 rounded-xl p-6 mb-6">
-          <p className="text-gray-300 leading-relaxed text-lg whitespace-pre-line">
-            {poema.contenido}
+          <p className="text-orange-300 mb-6">
+            ✍️ {poema.autor}
           </p>
+
+          <div className="bg-black bg-opacity-30 rounded-xl p-6 mb-6 border border-orange-100 border-opacity-20">
+            <p className="text-gray-200 leading-relaxed text-lg whitespace-pre-line">
+              {poema.contenido}
+            </p>
+          </div>
+
+          <div className="flex gap-3 flex-wrap">
+            <Link
+              to="/biblioteca"
+              className="border border-gray-400 text-gray-300 px-4 py-2 rounded-full text-sm hover:border-orange-300 hover:text-orange-300 transition-all"
+            >
+              ← Volver
+            </Link>
+
+            <button
+              onClick={handleCopiar}
+              className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+                copiado
+                  ? 'bg-green-400 text-black'
+                  : 'border border-orange-300 text-orange-300 hover:bg-orange-300 hover:text-black'
+              }`}
+            >
+              {copiado ? '✅ Copiado!' : '📋 Copiar poema'}
+            </button>
+
+            {esAdmin && (
+              <>
+                <Link
+                  to={`/editar/${poema.id}`}
+                  className="border border-orange-300 text-orange-300 px-4 py-2 rounded-full text-sm hover:bg-orange-300 hover:text-black transition-all"
+                >
+                  Editar
+                </Link>
+                <button
+                  onClick={handleEliminar}
+                  className="bg-red-500 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600 transition-all"
+                >
+                  Eliminar
+                </button>
+              </>
+            )}
+          </div>
+
         </div>
-
-        <div className="flex gap-3 mt-4 flex-wrap">
-          <Link
-            to="/biblioteca"
-            className="border border-gray-600 text-gray-400 px-4 py-2 rounded-full text-sm hover:border-teal-400 hover:text-teal-400"
-          >
-            ← Volver
-          </Link>
-
-          <button
-            onClick={handleCopiar}
-            className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
-              copiado
-                ? 'bg-green-500 text-white'
-                : 'border border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-gray-950'
-            }`}
-          >
-            {copiado ? '✅ Copiado!' : '📋 Copiar poema'}
-          </button>
-
-          {esAdmin && (
-            <>
-              <Link
-                to={`/editar/${poema.id}`}
-                className="border border-teal-400 text-teal-400 px-4 py-2 rounded-full text-sm hover:bg-teal-400 hover:text-gray-950"
-              >
-                Editar
-              </Link>
-              <button
-                onClick={handleEliminar}
-                className="bg-red-500 text-white px-4 py-2 rounded-full text-sm hover:bg-red-600"
-              >
-                Eliminar
-              </button>
-            </>
-          )}
-        </div>
-
       </div>
     </div>
   )

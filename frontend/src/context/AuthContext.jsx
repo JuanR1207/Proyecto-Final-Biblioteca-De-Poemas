@@ -1,55 +1,78 @@
-import { createContext, useState, useContext } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext()
 
-const usuariosIniciales = [
-  { id: 1, usuario: 'admin', contraseña: 'admin123', rol: 'admin' },
-  { id: 2, usuario: 'usuario', contraseña: '123456', rol: 'usuario' },
-]
+export const AuthProvider = ({ children }) => {
+  // ✅ Inicializa desde localStorage para que la sesión sobreviva recargas
+  const [usuarioActivo, setUsuarioActivo] = useState(
+    () => localStorage.getItem('usuario') || null
+  )
+  const [esAdmin, setEsAdmin] = useState(
+    () => localStorage.getItem('rol') === 'admin'
+  )
+  const [token, setToken] = useState(
+    () => localStorage.getItem('token') || null
+  )
 
-export function AuthProvider({ children }) {
-  const [usuarios, setUsuarios] = useState(usuariosIniciales)
-  const [usuarioActivo, setUsuarioActivo] = useState(null)
-
-  const login = (usuario, contraseña) => {
-    const encontrado = usuarios.find(
-      u => u.usuario === usuario && u.contraseña === contraseña
-    )
-    if (encontrado) {
-      setUsuarioActivo(encontrado)
-      return true
+  const registro = async (usuario, contraseña) => {
+    try {
+      const res = await fetch('http://localhost:3000/api/usuarios/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, contraseña })
+      })
+      const data = await res.json()
+      if (!res.ok) return { exito: false, mensaje: data.mensaje }
+      return { exito: true, mensaje: data.mensaje }
+    } catch (error) {
+      return { exito: false, mensaje: 'Error de conexión con el servidor' }
     }
-    return false
   }
 
-  const registro = (usuario, contraseña) => {
-    const existe = usuarios.find(u => u.usuario === usuario)
-    if (existe) return { exito: false, mensaje: 'Ese usuario ya existe' }
+  const login = async (usuario, contraseña) => {
+    try {
+      const res = await fetch('http://localhost:3000/api/usuarios/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ usuario, contraseña })
+      })
+      if (!res.ok) return false
 
-    const nuevoUsuario = {
-      id: usuarios.length + 1,
-      usuario,
-      contraseña,
-      rol: 'usuario'
+      const data = await res.json()
+
+      // ✅ Persiste todo en localStorage incluyendo el id
+      localStorage.setItem('token', data.token)
+      localStorage.setItem('usuario', data.usuario)
+      localStorage.setItem('rol', data.rol)
+      localStorage.setItem('usuario_id', data.id)
+
+      setUsuarioActivo(data.usuario)
+      setEsAdmin(data.rol === 'admin')
+      setToken(data.token)
+
+      return true
+    } catch (error) {
+      return false
     }
-    setUsuarios([...usuarios, nuevoUsuario])
-    setUsuarioActivo(nuevoUsuario)
-    return { exito: true }
   }
 
   const logout = () => {
+    // ✅ Limpia todo al cerrar sesión
+    localStorage.removeItem('token')
+    localStorage.removeItem('usuario')
+    localStorage.removeItem('rol')
+    localStorage.removeItem('usuario_id')
     setUsuarioActivo(null)
+    setEsAdmin(false)
+    setToken(null)
   }
 
-  const esAdmin = usuarioActivo?.rol === 'admin'
-
   return (
-    <AuthContext.Provider value={{ usuarioActivo, login, logout, registro, esAdmin }}>
+    // ✅ Expone token para que otros componentes lo puedan usar
+    <AuthContext.Provider value={{ usuarioActivo, esAdmin, token, registro, login, logout }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
-export function useAuth() {
-  return useContext(AuthContext)
-}
+export const useAuth = () => useContext(AuthContext)

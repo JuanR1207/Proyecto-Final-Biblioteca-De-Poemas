@@ -12,6 +12,7 @@ import Publica from './pages/Publica'
 import { useAuth } from './context/AuthContext'
 
 function App() {
+  // ✅ esAdmin viene del contexto real, no hardcodeado como true
   const { usuarioActivo, esAdmin } = useAuth()
 
   return (
@@ -21,31 +22,49 @@ function App() {
         <Route path="/" element={<Publica />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
+
         <Route path="/dashboard" element={
           <RutaProtegida>
             {esAdmin ? <Home /> : <VistaUsuario />}
           </RutaProtegida>
         } />
+
         <Route path="/biblioteca" element={
           <RutaProtegida soloAdmin>
             <Biblioteca />
           </RutaProtegida>
         } />
+
         <Route path="/poema/:id" element={
           <RutaProtegida soloAdmin>
             <DetallePoema />
           </RutaProtegida>
         } />
+
         <Route path="/nuevo" element={
           <RutaProtegida soloAdmin>
             <FormularioPoema />
           </RutaProtegida>
         } />
+
         <Route path="/editar/:id" element={
           <RutaProtegida soloAdmin>
             <FormularioPoema />
           </RutaProtegida>
         } />
+
+        <Route path="/mi-poema/nuevo" element={
+          <RutaProtegida>
+            <FormularioPoema />
+          </RutaProtegida>
+        } />
+
+        <Route path="/mi-poema/editar/:id" element={
+          <RutaProtegida>
+            <FormularioPoema />
+          </RutaProtegida>
+        } />
+
       </Routes>
     </BrowserRouter>
   )

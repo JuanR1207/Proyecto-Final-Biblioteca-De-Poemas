@@ -14,13 +14,16 @@ function Login() {
     setError('')
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
     if (!form.usuario || !form.contraseña) {
       setError('Por favor completa todos los campos')
       return
     }
-    const exito = login(form.usuario, form.contraseña)
+
+    const exito = await login(form.usuario, form.contraseña)
+
     if (exito) {
       navigate('/dashboard')
     } else {
@@ -29,37 +32,45 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-6">
-      <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 w-full max-w-md">
+    <div
+      className="min-h-screen flex items-center justify-center px-6"
+      style={{
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1455390582262-044cdead277a?w=1600')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}
+    >
+      <div className="bg-black bg-opacity-50 border border-orange-200 rounded-2xl p-8 w-full max-w-md backdrop-blur-sm">
 
-        <h1 className="text-3xl font-bold text-teal-400 text-center mb-2">
+        <h1 className="text-3xl font-bold text-orange-300 text-center mb-2">
           📚 Biblioteca de Poemas
         </h1>
-        <p className="text-gray-400 text-center mb-8">
+        <p className="text-gray-300 text-center mb-8">
           Inicia sesión para continuar
         </p>
 
-        <div className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
 
           <div>
-            <label className="text-gray-400 text-sm mb-1 block">Usuario</label>
+            <label className="text-gray-300 text-sm mb-1 block">Usuario</label>
             <input
               name="usuario"
               value={form.usuario}
               onChange={handleChange}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
+              className="w-full bg-black bg-opacity-40 text-white border border-orange-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-400 placeholder-gray-500"
               placeholder="Ingresa tu usuario"
             />
           </div>
 
           <div>
-            <label className="text-gray-400 text-sm mb-1 block">Contraseña</label>
+            <label className="text-gray-300 text-sm mb-1 block">Contraseña</label>
             <input
               name="contraseña"
               type="password"
               value={form.contraseña}
               onChange={handleChange}
-              className="w-full bg-gray-800 text-white border border-gray-700 rounded-xl px-4 py-3 focus:outline-none focus:border-teal-400"
+              className="w-full bg-black bg-opacity-40 text-white border border-orange-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-400 placeholder-gray-500"
               placeholder="Ingresa tu contraseña"
             />
           </div>
@@ -69,36 +80,27 @@ function Login() {
           )}
 
           <button
-            onClick={handleSubmit}
-            className="bg-teal-400 text-gray-950 px-6 py-3 rounded-full font-bold hover:bg-teal-300 w-full"
+            type="submit"
+            className="bg-orange-300 text-black px-6 py-3 rounded-full font-bold hover:bg-orange-400 w-full transition-all"
           >
             Iniciar Sesión
           </button>
 
-          <p className="text-gray-400 text-center text-sm">
+          <p className="text-gray-300 text-center text-sm">
             ¿No tienes cuenta?{' '}
-            <Link to="/registro" className="text-teal-400 hover:underline">
+            <Link to="/registro" className="text-orange-300 hover:underline">
               Regístrate
             </Link>
           </p>
 
-          <div className="border border-gray-800 rounded-xl p-4 mt-2">
-            <p className="text-gray-500 text-sm text-center mb-2">Usuarios de prueba</p>
-            <div className="flex justify-around">
-              <div className="text-center">
-                <p className="text-teal-400 text-sm font-bold">👑 Admin</p>
-                <p className="text-gray-500 text-xs">usuario: admin</p>
-                <p className="text-gray-500 text-xs">contraseña: admin123</p>
-              </div>
-              <div className="text-center">
-                <p className="text-teal-400 text-sm font-bold">👤 Usuario</p>
-                <p className="text-gray-500 text-xs">usuario: usuario</p>
-                <p className="text-gray-500 text-xs">contraseña: 123456</p>
-              </div>
-            </div>
-          </div>
+          {/* ✅ Botón volver a la página pública */}
+          <p className="text-gray-300 text-center text-sm">
+            <Link to="/" className="text-orange-300 hover:underline">
+              ← Volver a la biblioteca pública
+            </Link>
+          </p>
 
-        </div>
+        </form>
       </div>
     </div>
   )

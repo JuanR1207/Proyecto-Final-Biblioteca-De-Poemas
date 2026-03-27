@@ -1,39 +1,55 @@
-let poemas = [
-  { id: 1, titulo: "Oda a la vida", autor: "Juan Pérez", categoria: "Amor", contenido: "La vida es bella...", autor_id: 1 },
-  { id: 2, titulo: "El mar", autor: "Ana García", categoria: "Naturaleza", contenido: "El mar canta...", autor_id: 1 },
-  { id: 3, titulo: "Soledad", autor: "Carlos López", categoria: "Tristeza", contenido: "En la soledad...", autor_id: 2 },
-]
+const poemaService = require('../services/poemaService')
 
-const getPoemas = (req, res) => {
-  const { autor_id } = req.query
-  if (autor_id) {
-    return res.json(poemas.filter(p => p.autor_id === parseInt(autor_id)))
+const getPoemas = async (req, res) => {
+  try {
+    const { autor_id } = req.query
+    const poemas = autor_id
+      ? await poemaService.getPoemasDeUsuario(autor_id)
+      : await poemaService.getAllPoemas()
+    res.json(poemas)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
   }
-  res.json(poemas)
 }
 
-const getPoemaById = (req, res) => {
-  const poema = poemas.find(p => p.id === parseInt(req.params.id))
-  if (!poema) return res.status(404).json({ mensaje: "Poema no encontrado" })
-  res.json(poema)
+const getPoemaById = async (req, res) => {
+  try {
+    const poema = await poemaService.getPoemaById(req.params.id)
+    if (!poema) return res.status(404).json({ mensaje: 'Poema no encontrado' })
+    res.json(poema)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 }
 
-const createPoema = (req, res) => {
-  const nuevoPoema = { id: poemas.length + 1, ...req.body }
-  poemas.push(nuevoPoema)
-  res.status(201).json(nuevoPoema)
+const createPoema = async (req, res) => {
+  try {
+    const { titulo, contenido, autor, usuario_id, categoria } = req.body
+    const nuevoPoema = await poemaService.createPoema(titulo, contenido, autor, usuario_id, categoria)
+    res.status(201).json(nuevoPoema)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 }
 
-const updatePoema = (req, res) => {
-  const index = poemas.findIndex(p => p.id === parseInt(req.params.id))
-  if (index === -1) return res.status(404).json({ mensaje: "Poema no encontrado" })
-  poemas[index] = { ...poemas[index], ...req.body }
-  res.json(poemas[index])
+const updatePoema = async (req, res) => {
+  try {
+    const { titulo, contenido, autor, categoria } = req.body
+    const poemaActualizado = await poemaService.updatePoema(req.params.id, titulo, contenido, autor, categoria)
+    if (!poemaActualizado) return res.status(404).json({ mensaje: 'Poema no encontrado' })
+    res.json(poemaActualizado)
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 }
 
-const deletePoema = (req, res) => {
-  poemas = poemas.filter(p => p.id !== parseInt(req.params.id))
-  res.json({ mensaje: "Poema eliminado" })
+const deletePoema = async (req, res) => {
+  try {
+    await poemaService.deletePoema(req.params.id)
+    res.json({ mensaje: 'Poema eliminado' })
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 }
 
 module.exports = { getPoemas, getPoemaById, createPoema, updatePoema, deletePoema }
