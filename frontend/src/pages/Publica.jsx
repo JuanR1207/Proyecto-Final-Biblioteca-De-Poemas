@@ -11,7 +11,7 @@ function Publica() {
   const categorias = ['Amor', 'Naturaleza', 'Tristeza', 'Alegría', 'Reflexión']
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/poemas')
+    fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas')
       .then(res => res.json())
       .then(data => {
         setPoemas(data)

@@ -9,7 +9,7 @@ export const PoemasProvider = ({ children }) => {
 
   const obtenerPoemas = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/poemas')
+      const res = await fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas')
       const data = await res.json()
       setPoemas(data)
     } catch (error) {
@@ -21,7 +21,7 @@ export const PoemasProvider = ({ children }) => {
 
   const crearPoema = async (poema) => {
     try {
-      const res = await fetch('http://localhost:3000/api/poemas', {
+      const res = await fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(poema)
@@ -36,7 +36,7 @@ export const PoemasProvider = ({ children }) => {
 
   const eliminarPoema = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/poemas/${id}`, {
+      await fetch(`https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas/${id}`, {
         method: 'DELETE'
       })
       setPoemas(prev => prev.filter(p => p.id !== parseInt(id)))

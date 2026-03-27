@@ -19,7 +19,7 @@ function FormularioPoema() {
 
   useEffect(() => {
     if (esEdicion) {
-      fetch(`http://localhost:3000/api/poemas/${id}`)
+      fetch(`https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas/${id}`)
         .then(res => res.json())
         .then(data => setForm(data))
     }
@@ -48,8 +48,8 @@ function FormularioPoema() {
     }
 
     const url = esEdicion
-      ? `http://localhost:3000/api/poemas/${id}`
-      : 'http://localhost:3000/api/poemas'
+      ? `https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas/${id}`
+      : 'https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas'
 
     const method = esEdicion ? 'PUT' : 'POST'
 

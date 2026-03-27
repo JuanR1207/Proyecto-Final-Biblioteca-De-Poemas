@@ -14,7 +14,7 @@ function VistaUsuario() {
 
   useEffect(() => {
     // ✅ Trae todos los poemas, sin filtro por usuario
-    fetch('http://localhost:3000/api/poemas')
+    fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas')
       .then(res => res.json())
       .then(data => {
         setPoemas(data)

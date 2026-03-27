@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }) => {
 
   const registro = async (usuario, contraseña) => {
     try {
-      const res = await fetch('http://localhost:3000/api/usuarios/register', {
+      const res = await fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/usuarios/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ usuario, contraseña })
@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (usuario, contraseña) => {
     try {
-      const res = await fetch('http://localhost:3000/api/usuarios/login', {
+      const res = await fetch('https://proyecto-final-biblioteca-de-poemas.onrender.com/api/usuarios/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ usuario, contraseña })

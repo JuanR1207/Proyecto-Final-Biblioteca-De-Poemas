@@ -13,7 +13,7 @@ function DetallePoema() {
   const [copiado, setCopiado] = useState(false)
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/poemas/${id}`)
+    fetch(`https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas/${id}`)
       .then(res => res.json())
       .then(data => {
         setPoema(data)
