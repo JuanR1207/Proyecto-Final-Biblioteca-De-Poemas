@@ -28,7 +28,7 @@ export const PoemasProvider = ({ children }) => {
       })
       const data = await res.json()
       console.log(data)
-      await obtenerPoemas()
+      obtenerPoemas()
     } catch (error) {
       console.error(error)
     }
@@ -50,7 +50,7 @@ export const PoemasProvider = ({ children }) => {
   }, [])
 
   return (
-    <PoemasContext.Provider value={{ poemas, cargando, crearPoema, eliminarPoema, obtenerPoemas }}>
+    <PoemasContext.Provider value={{ poemas, cargando, crearPoema, eliminarPoema }}>
       {children}
     </PoemasContext.Provider>
   )

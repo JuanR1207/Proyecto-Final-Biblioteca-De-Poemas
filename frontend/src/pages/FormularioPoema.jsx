@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { usePoemas } from '../context/PoemasContext'
 
 function FormularioPoema() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { esAdmin } = useAuth()
-  const { obtenerPoemas } = usePoemas()
   const esEdicion = !!id
 
   const [form, setForm] = useState({
@@ -41,7 +39,7 @@ function FormularioPoema() {
     setErrores({ ...errores, [e.target.name]: '' })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     const nuevosErrores = validar()
     if (Object.keys(nuevosErrores).length > 0) {
@@ -54,19 +52,16 @@ function FormularioPoema() {
       : 'https://proyecto-final-biblioteca-de-poemas.onrender.com/api/poemas'
 
     const method = esEdicion ? 'PUT' : 'POST'
+
+    // ✅ usuario_id tomado del localStorage, no de usuarioActivo?.id
     const usuario_id = localStorage.getItem('usuario_id')
 
-    try {
-      await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, usuario_id })
-      })
-      await obtenerPoemas()
-      esAdmin ? navigate('/biblioteca') : navigate('/dashboard')
-    } catch (error) {
-      console.error(error)
-    }
+    fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...form, usuario_id })
+    })
+    .then(() => esAdmin ? navigate('/biblioteca') : navigate('/dashboard'))
   }
 
   return (
