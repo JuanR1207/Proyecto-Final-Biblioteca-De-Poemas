@@ -1,8 +1,10 @@
 const usuarioService = require('../services/usuarioService')
 
 const register = async (req, res) => {
-  const { usuario, contraseña } = req.body
-  if (!usuario || !contraseña) {
+  const { usuario, contraseña, contrasena } = req.body
+  const pass = contraseña || contrasena
+
+  if (!usuario || !pass) {
     return res.status(400).json({ mensaje: 'Datos incompletos' })
   }
 
@@ -12,7 +14,7 @@ const register = async (req, res) => {
       return res.status(400).json({ mensaje: 'El usuario ya existe' })
     }
 
-    await usuarioService.registerUser(usuario, contraseña)
+    await usuarioService.registerUser(usuario, pass)
     res.status(201).json({ mensaje: 'Usuario creado correctamente' })
   } catch (error) {
     console.error(error)
@@ -21,13 +23,15 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-  const { usuario, contraseña } = req.body
-  if (!usuario || !contraseña) {
+  const { usuario, contraseña, contrasena } = req.body
+  const pass = contraseña || contrasena
+
+  if (!usuario || !pass) {
     return res.status(400).json({ mensaje: 'Datos incompletos' })
   }
 
   try {
-    const resultado = await usuarioService.loginUser(usuario, contraseña)
+    const resultado = await usuarioService.loginUser(usuario, pass)
     res.json(resultado)
   } catch (error) {
     console.error(error)
